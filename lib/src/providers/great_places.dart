@@ -1,0 +1,19 @@
+import 'package:flutter/material.dart';
+
+import '../model/place.dart';
+
+class GreatPlaces with ChangeNotifier {
+  List<Place> _items = [];
+
+  List<Place> get items {
+    return [..._items];
+  }
+
+  int get itemsCount {
+    return _items.length;
+  }
+
+  Place itemByInde(int index) {
+    return _items[index];
+  }
+}
