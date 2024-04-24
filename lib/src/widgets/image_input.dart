@@ -27,6 +27,7 @@ class _ImageInputState extends State<ImageInput> {
       source: ImageSource.camera,
       maxHeight: 600,
     ) as XFile;
+    // ignore: unnecessary_null_comparison
     if (imageFile == null) return;
 
     setState(() {
