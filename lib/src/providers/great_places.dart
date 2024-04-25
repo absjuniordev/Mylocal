@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../db/db.dart';
 import '../model/place.dart';
 
