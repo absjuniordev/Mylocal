@@ -7,7 +7,22 @@ import '../db/db.dart';
 import '../model/place.dart';
 
 class GreatPlaces with ChangeNotifier {
-  final List<Place> _items = [];
+  List<Place> _items = [];
+
+  Future<void> loadPlaces() async {
+    final dataList = await Db.getData('places');
+    _items = dataList
+        .map(
+          (item) => Place(
+            id: item['id'],
+            title: item['title'],
+            image: File(item['image']),
+            location: null,
+          ),
+        )
+        .toList();
+    notifyListeners();
+  }
 
   List<Place> get items {
     return [..._items];

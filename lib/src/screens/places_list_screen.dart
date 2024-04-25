@@ -23,24 +23,31 @@ class PlacesListScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        child: const Center(
-          child: Text('Nenhum local cadastrado!'),
-        ),
-        builder: (ctx, gretaPlaces, child) => gretaPlaces.itemsCount == 0
-            ? child!
-            : ListView.builder(
-                itemBuilder: (cxt, i) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(
-                      gretaPlaces.itemByInde(i).image,
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false).loadPlaces(),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : Consumer<GreatPlaces>(
+                    child: const Center(
+                      child: Text('Nenhum local cadastrado!'),
                     ),
+                    builder: (ctx, gretaPlaces, child) =>
+                        gretaPlaces.itemsCount == 0
+                            ? child!
+                            : ListView.builder(
+                                itemBuilder: (cxt, i) => ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: FileImage(
+                                      gretaPlaces.itemByInde(i).image,
+                                    ),
+                                  ),
+                                  title: Text(gretaPlaces.itemByInde(i).title),
+                                  onTap: () {},
+                                ),
+                                itemCount: gretaPlaces.itemsCount,
+                              ),
                   ),
-                  title: Text(gretaPlaces.itemByInde(i).title),
-                  onTap: () {},
-                ),
-                itemCount: gretaPlaces.itemsCount,
-              ),
       ),
     );
   }
