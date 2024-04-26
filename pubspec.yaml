@@ -39,6 +39,7 @@ dependencies:
   location: ^5.0.0
   google_maps_flutter: 
   flutter_dotenv: 
+  http: 
 
 
 

@@ -5,7 +5,9 @@ import 'package:my_local/src/screens/map_screen.dart';
 import 'package:my_local/src/utils/location_util.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  final Function onSelectPosition;
+
+  const LocationInput({super.key, required this.onSelectPosition});
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -15,20 +17,31 @@ class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
   bool _isLoading = false;
 
+  void _showPreviewImageUrl(double lat, double lng) {
+    final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
+      latitude: lat,
+      longitude: lng,
+    );
+    setState(() {
+      _previewImageUrl = staticMapImageUrl;
+    });
+  }
+
   Future<void> _getCurrentLocation() async {
     try {
       setState(() {
         _isLoading = true;
       });
       final locData = await Location().getLocation();
+      _showPreviewImageUrl(locData.latitude!, locData.longitude!);
 
-      final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
-        latitude: locData.latitude,
-        longitude: locData.longitude,
+      widget.onSelectPosition(
+        LatLng(
+          locData.latitude!,
+          locData.longitude!,
+        ),
       );
-      setState(() {
-        _previewImageUrl = staticMapImageUrl;
-      });
+
       setState(() {
         _isLoading = false;
       });
@@ -47,7 +60,9 @@ class _LocationInputState extends State<LocationInput> {
 
     // ignore: unnecessary_null_comparison
     if (selectedPosition == null) return;
-    debugPrint(selectedPosition.latitude.toString());
+    widget.onSelectPosition(selectedPosition);
+
+    _showPreviewImageUrl(selectedPosition.latitude, selectedPosition.longitude);
   }
 
   @override
@@ -74,7 +89,7 @@ class _LocationInputState extends State<LocationInput> {
         ),
         const SizedBox(height: 20),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _getCurrentLocation,
@@ -83,7 +98,6 @@ class _LocationInputState extends State<LocationInput> {
                   ? const CircularProgressIndicator()
                   : const Text("Localização Atual"),
             ),
-            const SizedBox(width: 20),
             ElevatedButton.icon(
               onPressed: _selectMap,
               icon: const Icon(Icons.map),
