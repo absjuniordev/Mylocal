@@ -5,6 +5,7 @@ import 'package:my_local/src/model/place.dart';
 
 class MapScreen extends StatefulWidget {
   final PlaceLocation initialLocation;
+  final bool isReadOnly;
 
   const MapScreen({
     super.key,
@@ -12,6 +13,7 @@ class MapScreen extends StatefulWidget {
       latitude: 37.419857,
       longitude: -122.078827,
     ),
+    this.isReadOnly = false,
   });
 
   @override
@@ -19,6 +21,14 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pikedPosition;
+
+  void _selectedPosition(LatLng position) {
+    setState(() {
+      _pikedPosition = position;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +43,15 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 13,
         ),
+        onTap: widget.isReadOnly ? null : _selectedPosition,
+        markers: _pikedPosition == null
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('p1'),
+                  position: _pikedPosition!,
+                )
+              },
       ),
     );
   }
