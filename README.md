@@ -1,4 +1,4 @@
-# My Loca
+# My Local
 
 A new Flutter project.
 
