@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:my_local/src/screens/map_screen.dart';
 import 'package:my_local/src/utils/location_util.dart';
 
 class LocationInput extends StatefulWidget {
@@ -11,9 +12,13 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
+  bool _isLoading = false;
 
-  void _getCurrentLocation() async {
+  Future<void> _getCurrentLocation() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final locData = await Location().getLocation();
 
       final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
@@ -23,9 +28,23 @@ class _LocationInputState extends State<LocationInput> {
       setState(() {
         _previewImageUrl = staticMapImageUrl;
       });
+      setState(() {
+        _isLoading = false;
+      });
     } catch (error) {
       debugPrint('Erro ao obter localização: $error');
     }
+  }
+
+  Future<void> _selectMap() async {
+    final selectedMap = await Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => const MapScreen(),
+      ),
+    );
+
+    if (selectedMap == null) return;
   }
 
   @override
@@ -55,13 +74,15 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton.icon(
-              onPressed: _getCurrentLocation,
+              onPressed: _isLoading ? null : _getCurrentLocation,
               icon: const Icon(Icons.location_on),
-              label: const Text("Localização Atual"),
+              label: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text("Localização Atual"),
             ),
             const SizedBox(width: 20),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: _selectMap,
               icon: const Icon(Icons.map),
               label: const Text("Selecione o Mapa"),
             ),
