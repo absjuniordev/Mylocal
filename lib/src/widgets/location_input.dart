@@ -45,6 +45,7 @@ class _LocationInputState extends State<LocationInput> {
       ),
     );
 
+    // ignore: unnecessary_null_comparison
     if (selectedPosition == null) return;
     debugPrint(selectedPosition.latitude.toString());
   }

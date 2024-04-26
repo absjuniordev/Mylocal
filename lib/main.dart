@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_local/src/providers/great_places.dart';
 import 'package:my_local/src/screens/places_form_screen.dart';
 import 'package:provider/provider.dart';
 import 'src/screens/places_list_screen.dart';
 import 'src/utils/app_routs.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
