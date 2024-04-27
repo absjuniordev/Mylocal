@@ -1,16 +1,34 @@
 # My Local
 
-A new Flutter project.
+## Descrição
+O My Local é um aplicativo em Flutter que permite aos usuários salvar locais importantes usando um mapa interativo. Com ele, os usuários podem marcar locais no mapa, atribuir nomes e adicionar notas personalizadas para facilitar a recordação e a referência futura.
 
-## Getting Started
+## Funcionalidades
+- Visualização de Mapa Interativo
+- Salvamento de Locais no Mapa
+- Edição e Exclusão de Locais Salvos
+- Integração com Câmera e Galeria para Adicionar Fotos
+- Armazenamento Local de Dados
+- Recursos de Localização
+- Gerenciamento Seguro de Chaves de API
 
-This project is a starting point for a Flutter application.
+## Dependências
+- provider: ^6.1.2
+- image_picker
+- path_provider: ^2.1.3
+- path: ^1.8.3
+- sqflite
+- location: ^5.0.0
+- google_maps_flutter
+- flutter_dotenv
+- http
 
-A few resources to get you started if this is your first Flutter project:
+## Requisitos de Sistema
+- Dispositivos Android: Versão 5.0 (Lollipop) ou superior
+- Dispositivos iOS: Versão 10.0 ou superior
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Licença
+MIT License
+
+
